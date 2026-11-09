@@ -1,0 +1,143 @@
+/* 떠 있는 면 — 모달 · 토스트. 치수는 app-shell-spec 6절 */
+
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--app-overlay);
+}
+
+.app-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(720px, 100%);
+  max-height: 88vh;
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow);
+}
+.app-modal--wide {
+  width: min(980px, 100%);
+}
+.app-modal__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--app-line);
+}
+.app-modal__title {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+.app-modal__body {
+  flex: 1;
+  min-height: 0;
+  padding: 20px;
+  overflow: auto;
+}
+.app-modal__foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--app-line);
+  border-radius: 0 0 var(--app-radius-lg) var(--app-radius-lg);
+  background: var(--app-surface-muted);
+}
+.app-modal__foot-note {
+  margin-right: auto;
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+}
+/* 모달 구획 카드 — 큰 모달(여러 건 처리 등)의 본문 나누기. 올림 바탕 카드 · 흰 머리줄(제목 + 건수 + 오른쪽 작은 버튼). app-ui-spec 5절 「구조」 */
+.app-modal-section {
+  overflow: hidden;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface-hover);
+}
+.app-modal-section + .app-modal-section {
+  margin-top: 14px;
+}
+.app-modal-section__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--app-line);
+  background: var(--app-surface);
+}
+.app-modal-section__title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.app-modal-section__count {
+  color: var(--app-ink-muted);
+  font-size: 12px;
+}
+.app-modal-section__body {
+  padding: 11px 12px 12px;
+}
+
+.app-toaster {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* 남색 한 가지 모양 — tone 은 왼쪽 3px 띠로 구분한다(안내는 띠 없음, app-ui-spec 8절 D6) */
+.app-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 360px;
+  padding: 11px 16px;
+  border-left: 3px solid transparent;
+  border-radius: var(--app-radius);
+  background: var(--app-ink);
+  color: var(--app-brand-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  animation: app-toast-in 0.18s ease-out;
+}
+.app-toast__text {
+  flex: 1;
+}
+.app-toast__text p {
+  margin: 2px 0 0;
+  font-weight: 400;
+}
+.app-toast .app-mono {
+  font-size: 11px;
+  opacity: 0.8;
+}
+.app-toast .app-iconbtn {
+  color: var(--app-brand-ink);
+  opacity: 0.8;
+}
+.app-toast--success {
+  border-left-color: var(--app-ok);
+}
+.app-toast--warn {
+  border-left-color: var(--app-warn);
+}
+.app-toast--danger {
+  border-left-color: var(--app-danger);
+}
+@keyframes app-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

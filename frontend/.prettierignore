@@ -1,0 +1,5 @@
+dist
+node_modules
+package-lock.json
+# 디자인 담당이 준 목업 원본은 받은 그대로 둔다
+docs/design/mockups

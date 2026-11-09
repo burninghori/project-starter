@@ -1,0 +1,48 @@
+/* 요소 기본 — 본문 글자·바탕·포커스. 값은 app-ui-spec 3절 */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--app-ink);
+  font-family: var(--app-font);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 조작 요소의 줄 간격은 브라우저 기본(normal)이다 — Tailwind 기본 시트가 본문의 1.5 를 물려주면
+ * 버튼·칩·입력이 3~4px 높아진다(측정값: 버튼 23px · 칩 27px) */
+button,
+input {
+  line-height: normal;
+}
+
+/* 키보드 포커스는 모든 조작 요소에 같은 모양으로 — design-concept 7절 */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--app-brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

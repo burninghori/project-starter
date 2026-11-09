@@ -1,0 +1,1037 @@
+/* 프리미티브 — 화면 어디서나 쓰는 모양. 값은 app-ui-spec 3~5절.
+ * 새 클래스를 더하면 app-ui-spec 7절 파일 지도에 등재한다. 배치(flex·gap·폭)는 화면의 Tailwind 유틸이 맡는다. */
+
+/* ── 글자 ── */
+.app-title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.app-desc {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--app-ink-muted);
+}
+.app-section-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+.app-mono {
+  font-family: var(--app-font-mono);
+  font-size: 12px;
+}
+.app-link {
+  color: var(--app-brand);
+  font-weight: 700;
+  text-decoration: underline;
+}
+/* 분류·속성 — 색을 쓰지 않는다(design-concept 3절) */
+.app-plain {
+  color: var(--app-ink);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+/* 머리줄·표 위의 설명 — 알약이 아니라 주석 */
+.app-note-inline {
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+  font-weight: 400;
+}
+.app-num {
+  font-variant-numeric: tabular-nums;
+}
+/* 0건 흐림 */
+.app-zero {
+  color: var(--app-ink-ghost);
+  font-weight: 400;
+}
+
+/* ── 버튼 ── */
+.app-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  color: var(--app-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  /* 줄 간격은 지정하지 않는다 — 브라우저 기본(normal)으로 버튼 높이를 맞춘다 */
+  white-space: nowrap;
+  cursor: pointer;
+}
+.app-btn:hover:not(:disabled) {
+  background: var(--app-surface-muted);
+}
+.app-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.app-btn--primary {
+  border-color: var(--app-brand);
+  background: var(--app-brand);
+  color: var(--app-brand-ink);
+}
+.app-btn--primary:hover:not(:disabled) {
+  background: var(--app-brand);
+  filter: brightness(1.08);
+}
+.app-btn--danger {
+  border-color: var(--app-danger);
+  color: var(--app-danger);
+}
+.app-btn--sm {
+  padding: 4px 9px;
+  font-size: 11.5px;
+}
+
+.app-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: none;
+  color: var(--app-ink-muted);
+  cursor: pointer;
+}
+.app-iconbtn:hover {
+  color: var(--app-ink);
+}
+
+/* 상태 태그 + ID 한 덩어리 버튼 — ID 가 곧 이동 버튼(표의 ID 열 등) */
+.app-idbtn {
+  padding: 3px 7px;
+  gap: 5px;
+}
+.app-idbtn .app-tag {
+  padding: 1px 5px;
+  font-size: 10px;
+}
+.app-idbtn .app-mono {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* ── 태그 — 상태에만 쓴다(app-ui-spec 6절) ── */
+.app-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--app-radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.app-tag--ok {
+  background: var(--app-ok-tint);
+  color: var(--app-ok);
+}
+.app-tag--warn {
+  background: var(--app-warn-tint);
+  color: var(--app-warn);
+}
+.app-tag--danger {
+  background: var(--app-danger-tint);
+  color: var(--app-danger);
+}
+.app-tag--neutral {
+  background: var(--app-neutral-tint);
+  color: var(--app-neutral);
+}
+/* 결과 축 밖의 시스템 상태(예: 미수행) — 점선으로 다른 축임을 보인다 */
+.app-tag--dashed {
+  padding: 1px 7px;
+  border: 1px dashed currentColor;
+}
+
+/* 상태 글자 — 결과를 크게 보일 때 굵은 글자에 상태색(크기는 놓이는 자리가 정한다) */
+.app-status {
+  font-weight: 700;
+}
+.app-status--ok {
+  color: var(--app-ok);
+}
+.app-status--warn {
+  color: var(--app-warn);
+}
+.app-status--danger {
+  color: var(--app-danger);
+}
+.app-status--neutral {
+  color: var(--app-neutral);
+}
+
+/* ── 칩 — 목록을 한 조건으로 거르는 단일 선택 ── */
+.app-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 5px 13px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius-pill);
+  background: var(--app-surface);
+  color: var(--app-ink);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.app-chip__count {
+  font-weight: 700;
+}
+/* 걸리지 않은 칩의 건수는 그 상태의 색 — 걸리면 채움 위 흰 글자 */
+.app-chip:not([aria-pressed="true"]) .app-chip__count--ok {
+  color: var(--app-ok);
+}
+.app-chip:not([aria-pressed="true"]) .app-chip__count--warn {
+  color: var(--app-warn);
+}
+.app-chip:not([aria-pressed="true"]) .app-chip__count--danger {
+  color: var(--app-danger);
+}
+/* 올림 표시는 걸리지 않은 칩만 — 걸린 칩은 채움(흰 글자)을 유지한다. 걸린 칩에 바탕을 덮으면 흰 글자가 묻힌다 */
+.app-chip:hover:not(:disabled):not([aria-pressed="true"]) {
+  background: var(--app-surface-muted);
+}
+.app-chip[aria-pressed="true"] {
+  border-color: var(--app-ink);
+  background: var(--app-ink);
+  color: var(--app-brand-ink);
+}
+.app-chip:disabled {
+  opacity: 0.42;
+  background: var(--app-surface-muted);
+  color: var(--app-ink-muted);
+  cursor: not-allowed;
+}
+/* 다른 축(합계에 들지 않는 부분집합) — 점선 */
+.app-chip--subset {
+  border-style: dashed;
+  background: transparent;
+}
+.app-chip--subset[aria-pressed="true"] {
+  border-style: solid;
+  border-color: var(--app-danger);
+  background: var(--app-danger);
+}
+.app-chip-sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 9px;
+  background: var(--app-line);
+}
+
+/* ── 탭 — 같은 대상의 다른 보기 ── */
+.app-tab {
+  padding: 6px 14px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius-pill);
+  background: var(--app-surface);
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.app-tab[aria-selected="true"] {
+  border-color: var(--app-brand);
+  background: var(--app-brand);
+  color: var(--app-brand-ink);
+}
+.app-tab--sub {
+  border-radius: var(--app-radius);
+}
+.app-tab--sub[aria-selected="true"] {
+  background: var(--app-brand-tint);
+  color: var(--app-brand);
+}
+
+/* ── 팝오버 메뉴 — 버튼 하나에 딸린 동작 목록(ui/MenuButton). 트리거 아래 7px, 작은 떠 있는 면이라 shadow-sm ── */
+.app-menu {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  z-index: 30;
+  min-width: 180px;
+  padding: 5px 0;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-sm);
+}
+.app-menu--end {
+  right: 0;
+  left: auto;
+}
+.app-menu__item {
+  display: block;
+  width: 100%;
+  padding: 8px 13px;
+  border: 0;
+  background: none;
+  color: var(--app-ink);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* 올림은 연청록 — 사이드바 메뉴(surface-muted)와 다르다(app-ui-spec 5절 「팝오버 메뉴」) */
+.app-menu__item:hover {
+  background: var(--app-brand-tint);
+}
+
+/* ── 입력 ── */
+.app-field__label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--app-ink-muted);
+}
+/* 라벨 뒤 필수 표시 「*」 — 화면 낭독기에는 입력의 aria-required 로 알린다.
+   줄 높이 1 — 라벨(11.5px)보다 큰 글자가 라벨 줄을 늘려 옆 칸과 입력 높이가 어긋나지 않게 */
+.app-field__required {
+  margin-left: 3px;
+  color: var(--app-danger);
+  font-size: 12px;
+  line-height: 1;
+}
+/* 라벨 옆 보조 문구 — 칸의 상태나 짧은 제약(「· 수정 불가」). 문장으로 된 입력 규칙은 칸 아래 안내(__hint) */
+.app-field__label-note {
+  color: var(--app-ink-muted);
+  font-size: 10.5px;
+  font-weight: 400;
+}
+.app-input {
+  padding: 7px 10px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+}
+.app-input--multiline {
+  min-height: 66px;
+  resize: vertical;
+}
+/* 읽기 전용은 올림 면 바탕 + 회색 글자 + 기본 커서로 편집 칸과 구분한다(app-ui-spec 5절 「입력」). 비활성은 보조 면 + 금지 커서 */
+.app-input:read-only:not(select) {
+  background: var(--app-surface-hover);
+  color: var(--app-ink-muted);
+  cursor: default;
+}
+.app-input:disabled {
+  background: var(--app-surface-muted);
+  color: var(--app-ink-muted);
+  cursor: not-allowed;
+}
+/* 칸 아래 줄 — 안내는 회색, 주의(Caps Lock)는 호박, 오류는 적. 오류인 칸은 테두리도 적 */
+.app-input[aria-invalid="true"] {
+  border-color: var(--app-danger);
+}
+.app-field__hint {
+  margin: 0;
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+}
+.app-field__hint--warn {
+  color: var(--app-warn);
+  font-weight: 600;
+}
+.app-field__error {
+  margin: 0;
+  color: var(--app-danger);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+/* 비밀번호 보기 버튼 — 칸 안 오른쪽, 테두리·바탕 없는 회색 눈 아이콘. 켜져 있으면 진하게 */
+.app-password__toggle {
+  border: 0;
+  border-radius: var(--app-radius);
+  background: none;
+  color: var(--app-ink-muted);
+  cursor: pointer;
+}
+.app-password__toggle:hover,
+.app-password__toggle[aria-pressed="true"] {
+  color: var(--app-ink);
+}
+
+/* 셀렉트의 선택 전 안내 줄(「세부 유형 선택」) — 닫힌 칸에만 흐린 글자, 열린 목록의 값은 보통 글자. 비활성 칸과 달리 바탕은 그대로 */
+.app-input--placeholder {
+  color: var(--app-ink-faint);
+}
+.app-input--placeholder option {
+  color: var(--app-ink);
+}
+
+/* ── 체크박스 · 라디오 — 브라우저 기본 모양에 강조색, 16px, 라벨 11.5 와 간격 6 ── */
+.app-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+}
+.app-choice input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--app-brand);
+}
+.app-choice__note {
+  color: var(--app-ink-muted);
+}
+
+/* ── 스위치 — 켜고 끄는 한 칸(사용 · 사용 안 함). 30 × 17 트랙 + 13px 손잡이, 켜지면 청록. 상태 글자는 오른쪽 ── */
+.app-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-ink-muted);
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.app-switch__track {
+  position: relative;
+  width: 30px;
+  height: 17px;
+  flex: none;
+  border-radius: var(--app-radius-pill);
+  background: var(--app-line);
+  transition: background 0.15s;
+}
+.app-switch__track::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--app-surface);
+  content: "";
+  transition: left 0.15s;
+}
+.app-switch[aria-checked="true"] .app-switch__track {
+  background: var(--app-brand);
+}
+.app-switch[aria-checked="true"] .app-switch__track::after {
+  left: 15px;
+}
+.app-switch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── 파일 놓는 곳 ── */
+.app-dropzone {
+  padding: 18px 16px;
+  border: 1.5px dashed var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface-muted);
+  color: var(--app-ink-muted);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.12s,
+    background 0.12s;
+}
+.app-dropzone:hover {
+  border-color: var(--app-brand);
+  background: var(--app-surface-hover);
+}
+/* 파일 입력은 화면에 보이지 않으므로(sr-only) 키보드 포커스는 드롭존 테두리에 그린다 — base.css 의 포커스 모양과 같다 */
+.app-dropzone:has(input:focus-visible) {
+  outline: 2px solid var(--app-brand);
+  outline-offset: 2px;
+}
+.app-dropzone--active {
+  border-style: solid;
+  border-color: var(--app-brand);
+  background: var(--app-brand-tint);
+  color: var(--app-brand);
+}
+.app-dropzone__title {
+  color: var(--app-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.app-dropzone__hint {
+  font-size: 11px;
+}
+.app-dropzone__pick {
+  color: var(--app-brand);
+  font-weight: 700;
+  text-decoration: underline;
+}
+.app-filerow {
+  padding: 7px 10px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  font-size: 11.5px;
+}
+
+/* ── 안내 상자 — 기본은 무채색, 주의만 호박 ── */
+.app-note {
+  padding: 11px 14px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface-muted);
+  color: var(--app-ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+.app-note p {
+  margin: 0;
+}
+.app-note b,
+.app-note strong {
+  font-weight: 700;
+}
+.app-note--warn {
+  border-color: var(--app-warn);
+  background: var(--app-warn-tint);
+  color: var(--app-warn);
+  font-weight: 600;
+}
+/* 조회 실패 — 부정 상태(적) */
+.app-note--danger {
+  border-color: var(--app-danger);
+  background: var(--app-danger-tint);
+}
+
+/* ── 숫자 타일 — 상태색은 값에만 ── */
+.app-stat {
+  padding: 10px 13px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  color: var(--app-ink);
+  text-align: left;
+}
+.app-stat__label {
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.app-stat__value {
+  margin-top: 2px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  font-variant-numeric: tabular-nums;
+}
+.app-stat__sub {
+  margin-top: 1px;
+  color: var(--app-ink-muted);
+  font-size: 10.5px;
+}
+.app-stat--sm {
+  padding: 9px 12px;
+}
+.app-stat--sm .app-stat__value {
+  font-size: 20px;
+}
+.app-stat--ok .app-stat__value {
+  color: var(--app-ok);
+}
+.app-stat--warn .app-stat__value {
+  color: var(--app-warn);
+}
+.app-stat--danger .app-stat__value {
+  color: var(--app-danger);
+}
+/* 눌러서 거르는 타일 — 걸리면 남색 테두리. 단추는 내용을 세로 가운데에 두므로 위에서부터 쌓는다 — 보조 줄이 없는 타일도 옆 타일과
+   라벨 · 값이 같은 줄에 선다(보기 전용 타일과 같다) */
+button.app-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font: inherit;
+  cursor: pointer;
+}
+button.app-stat:hover {
+  border-color: var(--app-ink-muted);
+  background: var(--app-surface-hover);
+}
+button.app-stat[aria-pressed="true"] {
+  border-color: var(--app-ink);
+  box-shadow: inset 0 0 0 1px var(--app-ink);
+  background: var(--app-surface-muted);
+}
+button.app-stat[aria-pressed="true"] .app-stat__value {
+  color: var(--app-ink);
+}
+
+/* ── 진행 막대 ── */
+.app-progress {
+  height: 7px;
+  min-width: 90px;
+  overflow: hidden;
+  border-radius: var(--app-radius-pill);
+  background: var(--app-track);
+}
+.app-progress--mini {
+  height: 6px;
+  min-width: 60px;
+}
+/* 채움은 SVG 사각형이다 — 값에서 계산되는 폭을 인라인 style 없이 그린다 */
+.app-progress__fill {
+  fill: var(--app-ok);
+}
+.app-progress__fill--warn {
+  fill: var(--app-warn);
+}
+.app-progress__fill--danger {
+  fill: var(--app-danger);
+}
+
+/* ── 결과 띠 — 결과 하나를 크게 ── */
+.app-result {
+  padding: 12px 16px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface-muted);
+}
+.app-result--ok {
+  border-color: var(--app-ok);
+  background: var(--app-ok-tint);
+}
+.app-result--danger {
+  border-color: var(--app-danger);
+  background: var(--app-danger-tint);
+}
+.app-result__label {
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.app-result__value {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+.app-result--ok .app-result__value {
+  color: var(--app-ok);
+}
+.app-result--danger .app-result__value {
+  color: var(--app-danger);
+}
+.app-result__cond {
+  color: var(--app-ink);
+  font-size: 11.5px;
+}
+
+/* ── 카드 ── */
+.app-card {
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+}
+.app-card__head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--app-line);
+}
+.app-card__title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.app-card__body {
+  padding: 16px;
+}
+
+/* ── 상세 면 — 위에서 고른 대상의 내용 ── */
+.app-panel {
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+}
+.app-panel__head {
+  padding: 12px 16px 0;
+}
+.app-panel__title {
+  margin: 0;
+  color: var(--app-ink-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+.app-panel__body {
+  padding: 6px 16px 16px;
+}
+.app-panel--selected {
+  border-color: var(--app-brand);
+  box-shadow: 0 0 0 1px var(--app-brand);
+}
+.app-panel--selected > .app-panel__head {
+  padding-bottom: 12px;
+  border-radius: var(--app-radius) var(--app-radius) 0 0;
+  background: var(--app-brand-tint);
+}
+
+/* ── 상세 화면 상단 줄의 경로 ── */
+.app-crumb {
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+}
+
+/* ── 맥락 띠 — 화면 전체가 따르는 맥락(버전 · 기간 등) ── */
+.app-context {
+  padding: 10px 14px;
+  border: 1px solid var(--app-brand);
+  border-radius: var(--app-radius);
+  background: var(--app-brand-tint);
+}
+.app-context__label {
+  color: var(--app-brand);
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.app-context__select {
+  padding: 6px 10px;
+  border: 1px solid var(--app-brand);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  font-size: 13px;
+  font-weight: 700;
+}
+.app-context__sub {
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+}
+/* 위 줄 안에서 묶음을 가르는 세로선(예: 버전 │ 기간) */
+.app-context__divider {
+  align-self: stretch;
+  width: 1px;
+  margin: 0 6px;
+  background: var(--app-brand-line);
+}
+.app-context__summary {
+  padding-top: 8px;
+  border-top: 1px solid var(--app-brand-line);
+}
+.app-context__item {
+  padding: 0 22px;
+  border-right: 1px solid var(--app-brand-line);
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+}
+.app-context__item:first-child {
+  padding-left: 0;
+}
+.app-context__item:last-child {
+  border-right: 0;
+}
+.app-context__item-label {
+  font-size: 11px;
+  font-weight: 600;
+}
+.app-context__item-value {
+  color: var(--app-ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+/* 라벨 없이 글만 있는 칸 — 안의 굵은 글자는 14px 로 키운다 */
+.app-context__text {
+  color: var(--app-ink);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.app-context__text b {
+  font-size: 14px;
+  font-weight: 700;
+  /* 줄 높이를 키우지 않는다 — 옆 칸의 11.5px 글과 글자 기준선이 맞는다 */
+  line-height: 1;
+}
+.app-context__item-value--lg {
+  font-size: 19px;
+  letter-spacing: -0.4px;
+}
+
+/* ── 표 ── */
+.app-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+}
+/* 카드 안의 표 — 테두리는 카드가 갖는다 */
+.app-card .app-table-wrap {
+  border: 0;
+  border-radius: 0 0 var(--app-radius) var(--app-radius);
+}
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.app-table th,
+.app-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--app-line);
+  text-align: left;
+  vertical-align: middle;
+}
+.app-table th {
+  background: var(--app-brand-tint);
+  color: var(--app-brand);
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.app-table tbody tr:hover {
+  background: var(--app-surface-hover);
+}
+/* 누르면 열리는 행(키보드로도 열 수 있게 tabindex 를 단 행) — 손가락 커서 */
+.app-table tbody tr[tabindex="0"] {
+  cursor: pointer;
+}
+.app-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.app-table .app-table__num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.app-table .app-table__center {
+  text-align: center;
+}
+.app-table td.app-table__center > .app-plain {
+  color: var(--app-ink-muted);
+}
+/* 선택 행 — 연청록 바탕 + 왼쪽 3px 청록 띠 */
+.app-table tbody tr[aria-selected="true"] > td {
+  background: var(--app-brand-tint);
+}
+/* 연청록 행 위의 청록 태그는 바탕이 묻히므로 흰 바탕으로(app-ui-spec 5절 「태그」) */
+.app-table tbody tr[aria-selected="true"] .app-tag--ok {
+  background: var(--app-surface);
+}
+.app-table tbody tr[aria-selected="true"] > td:first-child {
+  box-shadow: inset 3px 0 0 var(--app-brand);
+}
+/* 사용 중인 행(현재 버전 등) — 연청록 바탕 + 청록 태그, 왼쪽 띠 없음(app-ui-spec 5절 「표」) */
+.app-table tbody tr.app-table__live > td {
+  background: var(--app-brand-tint);
+}
+.app-table tbody tr.app-table__live .app-tag--ok {
+  background: var(--app-surface);
+}
+/* 펼침 · 선택 표시(ui/Table `ExpandMark` · `SelectedMark`) — 8px 정사각형 칸 가운데의 채운 삼각형(6 × 8px), 제목 글자와 약 5px.
+   칸이 정사각형이라 펼침(아래, 8 × 6)으로 돌려도 자리가 그대로다. 아이콘(lucide)이 아니라 CSS 로 그린다 — 이 크기에서는 아이콘 그림 안의
+   여백 · 둥근 모서리로 뭉툭해지고 간격이 어긋난다. 테두리 두께는 정수 px 로 둔다 — Chrome 은 소수점을 버린다(app-ui-spec 8절 D66) */
+.app-table__toggle,
+.app-table__mark {
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.app-table__toggle::before,
+.app-table__mark::before {
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid currentColor;
+  content: "";
+}
+/* 선택 행 표시는 청록. 고르지 않은 행은 자리만 남긴다 */
+.app-table__mark {
+  color: var(--app-brand);
+}
+.app-table__mark--off {
+  visibility: hidden;
+}
+/* 가운데 정렬 칸에서는 선택 표시를 제목 왼쪽에 건다 — 표시 자리(8 + 4)만큼 제목이 밀리지 않고 머리 글자 가운데를 지킨다 */
+.app-table td.app-table__center > .app-table__mark {
+  margin-left: -12px;
+}
+/* 그룹 행 · 하위 행(접는 표) */
+.app-table tr.app-table__group > td {
+  background: var(--app-surface-muted);
+  font-size: 12.5px;
+}
+.app-table tr.app-table__group:hover > td {
+  background: var(--app-surface-hover);
+}
+.app-table tr.app-table__child > td {
+  font-size: 12px;
+}
+/* 하위 줄 첫 글자를 위 줄 제목 글자에 맞춘다 — 칸 안쪽 12 + 펼침 표시 칸 8 + 사이 4 */
+.app-table tr.app-table__child > td:first-child {
+  padding-left: 24px;
+}
+/* 조건에 맞는 행이 없을 때의 한 줄 */
+.app-table td.app-table__empty {
+  padding: 22px 12px;
+  color: var(--app-ink-muted);
+  text-align: center;
+}
+/* 펼침 표시는 회색. 펼치면 같은 삼각형을 돌려 아래를 가리킨다(모양은 위 「펼침 · 선택 표시」) */
+.app-table__toggle {
+  color: var(--app-ink-muted);
+}
+.app-table__toggle--open {
+  transform: rotate(90deg);
+}
+/* 두 줄 칸 — 윗줄 ID · 이름, 아랫줄 작은 회색(분류 등). 세로 배치는 Tailwind(flex flex-col) */
+.app-table__stack {
+  line-height: 1.35;
+}
+.app-table__stack small {
+  color: var(--app-ink-muted);
+  font-size: 11px;
+}
+/* 선택 열의 체크 — 34px 칸(app-ui-spec 5절 「체크박스」) */
+.app-table__check {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  accent-color: var(--app-brand);
+}
+/* 선택 열(`app-table__select`)과 다음 칸 — 체크 오른쪽 4px · 다음 칸 왼쪽 6px. 다음 칸 제목 앞의 펼침 표시가 체크와 떨어져 보이지 않게
+   체크 → 펼침 표시 사이를 약 12px 로 붙인다 */
+.app-table .app-table__select {
+  padding-right: 4px;
+}
+.app-table .app-table__select + th,
+.app-table .app-table__select + td {
+  padding-left: 6px;
+}
+/* 칸보다 긴 글을 한 줄로 자르고 말줄임 — 전체는 title */
+.app-clip {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+/* ── 펼친 줄 패널(아코디언) — 줄 바로 아래 칸 전체에 붙는 안쪽 패널 ── */
+.app-table tr.app-acc-row > td {
+  padding: 0 0 4px;
+  background: var(--app-surface-muted);
+}
+.app-acc {
+  display: flex;
+  margin: 2px 8px 6px 44px;
+  overflow: hidden;
+  border: 1px solid var(--app-line);
+  border-left: 3px solid var(--app-brand);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-sm);
+}
+.app-acc__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--app-track);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.app-acc__count {
+  color: var(--app-ink-muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+.app-acc__note {
+  margin: 0;
+  padding: 12px;
+  color: var(--app-ink-muted);
+  font-size: 12px;
+}
+/* 오른쪽 상자 — 「이름 · 값」 줄들(예: 등록일 · 처리일 · 처리 결과) */
+.app-acc__side {
+  display: grid;
+  flex: none;
+  grid-template-columns: auto 1fr;
+  align-content: start;
+  gap: 8px 14px;
+  width: 250px;
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 1px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-ink-muted);
+  font-size: 12px;
+}
+.app-acc__side dd {
+  margin: 0;
+  color: var(--app-ink);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ── 필터 줄 — 건수는 맨 앞 ── */
+.app-filter-count {
+  padding-right: 6px;
+  margin-right: 2px;
+  border-right: 1px solid var(--app-line);
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+.app-filter-count b {
+  color: var(--app-ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+.app-filter-select {
+  min-width: 140px;
+}
+.app-filter-search {
+  width: 200px;
+}
+
+/* ── 페이지 나눔 — 「1–10 표시」 · 「n건씩」 · 이전 / n / N / 다음 ── */
+.app-pager {
+  padding: 10px 14px;
+  border-top: 1px solid var(--app-line);
+  background: var(--app-surface);
+  color: var(--app-ink-muted);
+  font-size: 11.5px;
+}
+.app-pager__size {
+  padding: 3px 6px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  font-size: 11.5px;
+}
+
+/* ── 계약 없는 자리 — 무채 점선 칩 (PendingContract) ── */
+.app-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border: 1px dashed var(--app-ink-ghost);
+  border-radius: var(--app-radius);
+  color: var(--app-ink-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ── 로딩 골격 ── */
+.app-skeleton {
+  height: 64px;
+  border-radius: var(--app-radius);
+  background: var(--app-surface-muted);
+  animation: app-pulse 1.2s ease-in-out infinite;
+}
+@keyframes app-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}

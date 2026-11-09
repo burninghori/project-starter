@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# 로컬 설정. 예시(.env.example)와 테스트 설정(backend/.env.test)은 이름이 달라 커밋된다
+.env
+
+# 로컬 전용 작업 메모 — 설계 확정 전 임시 합의·진행 상황. 커밋하지 않고 확정되면 정식 문서로 옮긴 뒤 지운다
+/.local/
+
+# 편집기·OS
+.DS_Store
+.idea/
+
+# Claude Code — 개인 설정·worktree 는 로컬, 팀 공용 설정·skill·에이전트는 커밋한다
+.claude/*
+!.claude/settings.json
+!.claude/launch.json
+!.claude/skills/
+!.claude/agents/

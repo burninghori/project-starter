@@ -1,0 +1,89 @@
+[project]
+name = "app-backend"
+version = "0.1.0"
+description = "app backend"
+requires-python = ">=3.13"
+dependencies = [
+    # 0.121 부터 Depends(scope=...) 가 있다 — 요청 세션이 응답 전에 commit 한다(app/db/deps.py)
+    "fastapi>=0.121",
+    "uvicorn[standard]>=0.32",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    # DB 스택 — PostgreSQL 17 async ORM/드라이버/마이그레이션
+    "sqlalchemy[asyncio]>=2.0",
+    "asyncpg>=0.30",
+    "alembic>=1.13",
+    # 비-TTY(컨테이너 stdout) 로그를 JSON line 으로 낸다 (app/logging.py)
+    "python-json-logger>=3.2",
+    "boto3>=1.43.116",
+    "bcrypt>=5.0.0",
+    "pyjwt>=2.15.1",
+    "python-multipart>=0.0.20",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    # FastAPI TestClient 가 쓴다
+    "httpx2>=2.13",
+    "ruff>=0.15",
+    "pyright>=1.1.400",
+    "boto3-stubs[s3]>=1.43.116",
+]
+
+# 배포 라이브러리가 아니라 애플리케이션이다. 코드는 cwd(=backend/) 기준 `app.*` 로 import 한다
+# (uvicorn·alembic·pytest 모두 cwd=backend).
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = ["--strict-markers"]
+markers = [
+    "unit: 컨테이너(Postgres·스토리지) 없이 도는 테스트 — collection 시 자동 분류(tests/plugins/markers.py). `pytest -m unit`",
+    "integration: 테스트 DB 또는 S3 호환 컨테이너가 필요한 테스트 — db_session/db_engine/db_client/storage 픽스처를 쓰면 자동 부착. `pytest -m integration`",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+src = ["app", "tests"]
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF", "TID251"]
+ignore = [
+    "E501",
+    "B008",
+    # 한글 주석·문자열의 ambiguous unicode("–", "×", "…" 등)는 의도된 표기다
+    "RUF001",
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# 앱 로거 등록 금지 규칙(TID251)의 대상이 아닌 곳: 테스트, alembic 자체 로거, 로거 구현 모듈
+"tests/**/*.py" = ["TID251"]
+"migrations/**/*.py" = ["TID251"]
+"app/logging.py" = ["TID251"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"logging.getLogger".msg = "앱 로거는 app.logging.get_logger 로 얻는다 — 우회하면 LOG_LEVEL 과 request_id 주입이 빠진다"
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.pyright]
+pythonVersion = "3.13"
+include = ["app", "tests", "migrations", "scripts"]
+exclude = [".venv"]
+extraPaths = ["."]

@@ -1,0 +1,16 @@
+/* ============================================================================
+ * app-ui 진입 시트 — main.tsx 는 이 파일 하나만 import 한다.
+ * 아래 @import 순서가 캐스케이드 순서다: 글꼴 → tokens(변수) → base(요소 기본) → core(프리미티브)
+ *   → overlay(떠 있는 면) → shell(셸 골격) → modules(화면 전용 확장)
+ * 전 시트를 layer(components) 로 감싸 Tailwind 유틸리티가 항상 우선한다.
+ * 규칙: frontend/docs/design/app-ui-spec.md
+ * ==========================================================================*/
+@import "tailwindcss" source("../..");
+/* 사용자 설치 없이 같은 글꼴 — 화면에 쓰인 글자 조각만 내려받는다(app-ui-spec 9절) */
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+@import "./tokens.css" layer(components);
+@import "./base.css" layer(components);
+@import "./core.css" layer(components);
+@import "./overlay.css" layer(components);
+@import "./shell.css" layer(components);
+@import "./modules.css" layer(components);

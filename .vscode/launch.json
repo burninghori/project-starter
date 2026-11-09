@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "backend: API (디버그)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "app",
+      "cwd": "${workspaceFolder}/backend",
+      "env": { "APP_RELOAD": "false" },
+      "justMyCode": true
+    },
+    {
+      "name": "backend: pytest 현재 파일",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "cwd": "${workspaceFolder}/backend",
+      "args": ["${file}", "-x"],
+      "justMyCode": false
+    }
+  ]
+}

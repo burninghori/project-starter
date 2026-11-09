@@ -1,0 +1,155 @@
+/* 앱 셸 골격 — 사이드바 + 본문. 치수는 docs/design/app-shell-spec.md 1~4절 */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 222px 1fr;
+  min-height: 100vh;
+}
+
+.app-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border-right: 1px solid var(--app-line);
+  background: var(--app-surface);
+}
+
+/* 브랜드 — 마크 + 서비스명 아래 부제(값은 src/app/brand.ts, app-shell-spec 2절) */
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 18px 18px 16px;
+  border-bottom: 1px solid var(--app-line);
+}
+.app-brand__mark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--app-brand);
+  color: var(--app-brand-ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+.app-brand__name {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+.app-brand__sub {
+  display: block;
+  margin-top: 1px;
+  color: var(--app-ink-muted);
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.app-nav {
+  flex: 1;
+  padding: 10px;
+  overflow: auto;
+}
+.app-nav__heading {
+  padding: 16px 10px 5px;
+  color: var(--app-ink-faint);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+}
+/* 메뉴 항목에는 아이콘을 두지 않는다(app-shell-spec 2절). 그룹 아래 항목은 왼쪽 19px 들여쓴다.
+   화면이 없는 메뉴의 표시(「준비 중」 태그)는 이름과 양 끝 맞춤이다(app-ui-spec 「메뉴 공개 상태」) */
+.app-nav__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 1px;
+  padding: 8px 10px 8px 19px;
+  border-radius: var(--app-radius);
+  color: var(--app-ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+/* 메뉴 안의 표시는 작게 — 표시가 있는 줄과 없는 줄의 높이를 같게 둔다(10px) */
+.app-nav__item .app-tag {
+  padding: 1px 6px;
+  font-size: 10px;
+}
+/* 구분 없이 맨 위에 두는 메뉴(홈)는 들여쓰지 않는다 */
+.app-nav__item--top {
+  padding-left: 10px;
+}
+.app-nav__item:hover {
+  background: var(--app-surface-muted);
+}
+.app-nav__item--active {
+  background: var(--app-brand-tint);
+  color: var(--app-brand);
+  font-weight: 700;
+}
+.app-nav__item--active:hover {
+  background: var(--app-brand-tint);
+}
+
+/* 상단바 — 본문 열 맨 위에 고정(sticky). 오른쪽 끝에 작은 버튼만(app-shell-spec 3절). 안의 팝오버 메뉴는 이 스태킹 컨텍스트(z 20)에 묶인다 */
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--app-line);
+  background: var(--app-surface);
+}
+
+/* 본문 열 — 상단바가 열의 맨 위에 바로 놓여 스크롤해도 고정된다. 여백은 본문 감싸개(app-main__body)가 갖는다 */
+.app-main {
+  min-width: 0;
+}
+.app-main__body {
+  padding: 22px 24px 60px;
+}
+
+/* 셸 밖 화면(로그인·비밀번호 변경) — 바탕 가운데 한 줄: 브랜드 → 카드(app-shell-spec 5절, app-ui-spec 4절 「부품 치수」) */
+.app-standalone {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+/* 나타날 때 아래에서 8px 올라온다 — 토스트와 같은 움직임. 「동작 줄이기」면 base.css 가 끈다 */
+.app-standalone__main {
+  width: min(360px, 100%);
+  animation: app-standalone-in 0.18s ease-out;
+}
+/* 그림자 없이 테두리만 — 그림자는 떠 있는 면(모달)에만 쓴다(design-concept 2절) */
+.app-standalone__card {
+  padding: 24px;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface);
+}
+.app-standalone__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+/* 화면에 폼 하나뿐이라 업무 화면보다 조작 요소를 크게 둔다(입력·버튼 높이 약 38px) */
+.app-standalone__card .app-input,
+.app-standalone__card .app-btn {
+  padding: 10px 12px;
+}
+.app-standalone__card .app-btn {
+  font-size: 13px;
+}
+@keyframes app-standalone-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

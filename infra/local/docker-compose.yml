@@ -1,0 +1,71 @@
+# 로컬 개발용 컨테이너 — Postgres 와 S3 호환 스토리지(SeaweedFS). infra/local 은 로컬 전용이다.
+#   make local-up   = up -d --wait postgres s3  →  run --rm s3-init (버킷 생성)
+# `docker compose up` 만으로는 버킷이 만들어지지 않는다 — s3-init 은 profile 뒤에 있어 make local-up 이 따로 돌린다
+# (`up --wait` 는 끝나는 컨테이너를 실패로 보기 때문).
+# CI(.github/workflows/ci.yml)도 같은 make local-up 을 쓴다 — 로컬과 같은 이미지·계정·버킷·포트로 integration 테스트가 돈다.
+# 포트 55434·8334·9334 는 다른 프로젝트의 로컬 컨테이너와 겹치지 않게 고른 값이다.
+name: app
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+    ports:
+      - "55434:5432"
+    volumes:
+      # 이미지 메이저 버전을 올리면 기존 볼륨으로는 기동이 거부된다. 로컬 DB 는 마이그레이션으로
+      # 다시 세우므로 볼륨을 지운다: make local-reset
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # S3 API 호환 스토리지(결정 0004). 앱은 boto3 + S3_ENDPOINT_URL(http://127.0.0.1:8334) + path-style 로 붙는다.
+  # master·volume·filer·S3 게이트웨이가 한 컨테이너에 뜬다. -ip=s3 는 컨테이너끼리 광고하는 주소(s3-init 의 weed shell 이 filer 에 닿는다).
+  s3:
+    image: chrislusf/seaweedfs:4.48
+    command: >-
+      server -s3 -dir=/data -ip=s3 -ip.bind=0.0.0.0
+      -s3.config=/etc/seaweedfs/s3-identities.json
+      -s3.iam=false
+      -s3.autoCreateBucket=false
+      -master.volumeSizeLimitMB=256
+      -volume.max=0
+    # -s3.autoCreateBucket=false: 없는 버킷에 저장하면 NoSuchBucket 으로 실패한다. 버킷 이름 오타가 조용히 새 버킷을 만들지 않게(기조 5).
+    # -s3.iam=false: 내장 IAM API 를 쓰지 않는다(켜 두면 서명 키 없음 오류 로그가 난다).
+    # -volume.max=0: 디스크 여유로 볼륨 수를 정한다. 버킷마다 볼륨 묶음을 쓰므로 고정 상한을 두면 버킷 둘째부터 저장이 실패한다.
+    ports:
+      - "8334:8333"   # S3 API
+      - "9334:9333"   # master(헬스체크·weed shell)
+    volumes:
+      - seaweedfs-data:/data
+      - ./seaweedfs/s3-identities.json:/etc/seaweedfs/s3-identities.json:ro
+    healthcheck:
+      # 쓸 수 있는 볼륨이 있어야 성공한다(마스터만 떠 있는 상태는 실패).
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:9333/dir/assign >/dev/null"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  # 앱 버킷을 만들고 끝나는 1회성 작업(make local-up 이 `run --rm s3-init` 으로 돌린다). 이미 있으면 건너뛴다.
+  # 버킷 이름은 backend/.env.example·backend/.env.test 와 같다.
+  s3-init:
+    image: chrislusf/seaweedfs:4.48
+    profiles: ["init"]
+    depends_on:
+      s3:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "/create-buckets.sh"]
+    environment:
+      WEED_MASTER: s3:9333
+      BUCKETS: app-files app-files-test
+    volumes:
+      - ./seaweedfs/create-buckets.sh:/create-buckets.sh:ro
+
+volumes:
+  postgres-data:
+  seaweedfs-data:

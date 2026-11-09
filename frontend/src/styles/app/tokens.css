@@ -1,0 +1,52 @@
+/* 디자인 토큰 — 색·라운드·그림자·글꼴의 단일 출처.
+ * 값은 docs/design/app-ui-spec.md 2절과 같다. 값을 바꿀 때는 그 문서부터 고친다.
+ * 화면 코드는 값을 직접 쓰지 않고 var(--app-*) 또는 app-* 클래스로만 참조한다. */
+:root {
+  /* 면 · 선 */
+  --app-bg: #f5f7fa;
+  --app-surface: #ffffff;
+  --app-surface-muted: #f5f7fa;
+  --app-surface-hover: #f7fbfa;
+  --app-line: #d8dee8;
+  --app-track: #e8ecf2;
+
+  /* 글자 */
+  --app-ink: #16233a;
+  --app-ink-muted: #5a6577;
+  /* 초안 #8d99a8(대비 2.89:1)을 AA 로 보정 — app-ui-spec 8절 D9 */
+  --app-ink-faint: #69788a;
+  --app-ink-ghost: #aeb5b3;
+
+  /* 브랜드(청록) — 주 버튼 · 선택 · 링크 · 포커스 */
+  --app-brand: #0e7c6b;
+  --app-brand-tint: #eaf4f1;
+  --app-brand-ink: #ffffff;
+  --app-brand-line: rgb(14 124 107 / 0.22);
+
+  /* 상태 — 뜻은 design-concept 3절, 대상별 매핑은 app-ui-spec 6절 */
+  --app-ok: #0e7c6b;
+  --app-ok-tint: #eaf4f1;
+  /* 초안 #b0791c 를 AA 로 보정 — app-ui-spec 8절 D8 */
+  --app-warn: #966718;
+  --app-warn-tint: #fbf4e6;
+  --app-danger: #c0392b;
+  --app-danger-tint: #fbedeb;
+  --app-neutral: #5a6577;
+  --app-neutral-tint: #f5f7fa;
+
+  /* 겹침 */
+  --app-overlay: rgb(22 35 58 / 0.42);
+  --app-shadow: 0 18px 48px rgb(22 35 58 / 0.22);
+  /* 팝오버 메뉴 — 버튼에 딸린 작은 떠 있는 면. 모달 그림자는 작은 상자에 너무 무겁다(app-ui-spec 2절) */
+  --app-shadow-sm: 0 12px 30px rgb(22 35 58 / 0.15);
+
+  /* 모양 */
+  --app-radius-sm: 5px;
+  --app-radius: 6px;
+  --app-radius-lg: 9px;
+  --app-radius-pill: 999px;
+
+  /* 글꼴 — Pretendard 는 앱이 함께 배포한다(app.css, app-ui-spec 9절) */
+  --app-font: "Pretendard Variable", Pretendard, -apple-system, system-ui, sans-serif;
+  --app-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
